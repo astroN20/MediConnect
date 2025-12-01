@@ -1,6 +1,7 @@
 package com.medconnect.model;
 
 public class Medico {
+    /*aasd */
     private Integer id;
     private String nombre;
     private String especialidad;
