@@ -15,20 +15,21 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+// Integración final
 public class MainFrame extends JFrame {
     private final PacienteService pacienteService;
     private final MedicoService medicoService;
     private final CitaService citaService;
     private final boolean soloLectura;
 
-    // modelos de tabla
+ 
     private DefaultTableModel pacientesModel;
     private DefaultTableModel medicosModel;
     private DefaultTableModel citasModel;
 
     public MainFrame(boolean soloLectura) {
         this.soloLectura = soloLectura;
-        // Inyección de dependencias (DIP): pasamos implementaciones JDBC
+        
         this.pacienteService = new PacienteService(new PacienteRepositoryJDBC());
         this.medicoService = new MedicoService(new MedicoRepositoryJDBC());
         this.citaService = new CitaService(new CitaRepositoryJDBC());
@@ -47,7 +48,7 @@ public class MainFrame extends JFrame {
         tabs.add("Gestión de Citas", buildCitasPanel());
 
         if (soloLectura) {
-            // ocultar la pestaña de gestión si es modo médico (solo lectura)
+            
         }
 
         add(tabs);
@@ -56,7 +57,7 @@ public class MainFrame extends JFrame {
     private JPanel buildGestionPanel() {
         JPanel panel = new JPanel(new GridLayout(1,2));
 
-        // Pacientes
+  
         JPanel pPac = new JPanel(new BorderLayout());
         pacientesModel = new DefaultTableModel(new Object[]{"ID","Nombre","Documento","Teléfono"},0);
         JTable tblPac = new JTable(pacientesModel);
@@ -81,7 +82,7 @@ public class MainFrame extends JFrame {
         pacBtns.add(btnAddPac);
         pPac.add(pacBtns, BorderLayout.SOUTH);
 
-        // Médicos
+    
         JPanel pMed = new JPanel(new BorderLayout());
         medicosModel = new DefaultTableModel(new Object[]{"ID","Nombre","Especialidad"},0);
         JTable tblMed = new JTable(medicosModel);
@@ -149,7 +150,7 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // Al cargar panel, llenar comboboxes y tabla
+      
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowOpened(WindowEvent e) {
@@ -157,7 +158,6 @@ public class MainFrame extends JFrame {
             }
         });
 
-        // Helper para exponer combobox desde fuera
         Runnable fill = () -> {
             try {
                 cbMedicos.removeAllItems();
@@ -166,10 +166,10 @@ public class MainFrame extends JFrame {
                 for (Paciente p : pacienteService.listarPacientes()) cbPacientes.addItem(p);
             } catch (Exception ex) { ex.printStackTrace(); }
         };
-        // Ejecutar de inmediato
+        
         fill.run();
 
-        // cuando seleccionen médico o fecha, mostrar citas
+       
         cbMedicos.addActionListener(ev -> {
             try {
                 Medico sel = (Medico) cbMedicos.getSelectedItem();
